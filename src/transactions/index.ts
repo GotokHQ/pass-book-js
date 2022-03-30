@@ -1,1 +1,1 @@
-export * from './initPassBook';
+export * from './InitPassBook';
