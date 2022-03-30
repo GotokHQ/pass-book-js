@@ -24,11 +24,7 @@ jobs:
       - name: Build TypeScript 
         run: yarn build
         shell: bash
-
-      - name: Test TypeScript
-        run: yarn test
-        shell: bash
-
+        
       - name: Lint TypeScript 
         run: yarn lint
         shell: bash

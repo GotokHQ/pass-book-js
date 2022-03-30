@@ -2,7 +2,6 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { inspect } from 'util';
 import debug from 'debug';
 import test from 'tape';
-import { LOCALHOST } from '@metaplex-foundation/amman';
 
 export * from './address-labels';
 export * from './metadata';

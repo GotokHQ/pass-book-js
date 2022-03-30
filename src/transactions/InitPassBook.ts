@@ -90,7 +90,7 @@ export class InitPassBook extends Transaction {
       mutable,
       durationType,
       duration,
-      maxSupply
+      maxSupply,
     });
     this.add(
       new TransactionInstruction({
