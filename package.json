@@ -22,9 +22,6 @@
         "fix:prettier": "prettier --write src/",
         "fix": "yarn fix:lint && yarn fix:prettier"
     },
-    "files": [
-        "/dist"
-    ],
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org"
