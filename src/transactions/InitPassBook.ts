@@ -8,7 +8,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import BN from 'bn.js';
-import { DurationType } from 'src/accounts/constants';
+import { DurationType } from '../accounts/constants';
 import { PassBookProgram } from '../PassBookProgram';
 
 type Args = {

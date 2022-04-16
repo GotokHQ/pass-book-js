@@ -1,7 +1,7 @@
 import { Borsh, Transaction } from '@metaplex-foundation/mpl-core';
 import { PublicKey, TransactionCtorFields } from '@solana/web3.js';
 import BN from 'bn.js';
-import { DurationType } from 'src/accounts/constants';
+import { DurationType } from '../accounts/constants';
 declare type Args = {
     name: string;
     description: string;
