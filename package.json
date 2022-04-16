@@ -4,6 +4,7 @@
     "description": "Pass Book JavaScript API.",
     "main": "dist/src/pass-book.js",
     "types": "dist/src/pass-book.d.ts",
+    "source": "src/pass-book.js",
     "scripts": {
         "check:publish-ready": "yarn build && yarn test",
         "preversion": "yarn check:publish-ready",
@@ -22,10 +23,9 @@
         "fix:prettier": "prettier --write src/",
         "fix": "yarn fix:lint && yarn fix:prettier"
     },
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org"
-    },
+    "files": [
+        "dist"
+    ],
     "keywords": [
         "nft",
         "pass",
