@@ -1,10 +1,9 @@
 {
-    "name": "@gotok/pass-book-js",
+    "name": "@gotok/pass-book",
     "version": "0.0.1",
     "description": "Pass Book JavaScript API.",
     "main": "dist/src/pass-book.js",
     "types": "dist/src/pass-book.d.ts",
-    "source": "src/pass-book.js",
     "scripts": {
         "check:publish-ready": "yarn build && yarn test",
         "preversion": "yarn check:publish-ready",
