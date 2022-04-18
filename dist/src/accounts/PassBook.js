@@ -38,7 +38,7 @@ PassBookData.SCHEMA = PassBookData.struct([
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['passState', 'u8'],
-    ['validityPeriod', { kind: 'option', type: 'u64' }],
+    ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
     ['totalPasses', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],

@@ -22,7 +22,7 @@ export declare class PassData extends Borsh.Data<Args> {
     description: string;
     uri: string;
     mutable: boolean;
-    validityPeriod?: number;
+    access?: number;
     collectionMint?: StringPublicKey;
     timeValidationAuthority?: StringPublicKey;
     passState: PassState;

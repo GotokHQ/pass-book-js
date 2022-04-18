@@ -66,7 +66,7 @@ test('init-pass-book-account: success', async (t) => {
     mint: master.mint.publicKey,
     authority: payer.publicKey,
     mutable: true,
-    validityPeriod: new BN(30),
+    access: new BN(30),
     duration: new BN(30),
     maxSupply: new BN(100),
   });
@@ -87,7 +87,7 @@ test('init-pass-book-account: success', async (t) => {
     <Buffer>passBookAccount.data,
   );
   t.assert(passBookData.duration.eq(new BN(30)), 'Duration invalid');
-  t.assert(passBookData.validityPeriod.eq(new BN(30)), 'Validity period invalid');
+  t.assert(passBookData.access.eq(new BN(30)), 'Validity period invalid');
   t.assert(passBookData.maxSupply.eq(new BN(100)), 'Max supply invalid');
   t.assert(passBookData.totalPasses.eq(new BN(0)), 'total passes should be 0');
   spok(t, passBookData, {
@@ -154,7 +154,7 @@ test('init-pass-book-account: failure', async (t) => {
     mint: master.mint.publicKey,
     authority: payer.publicKey,
     mutable: true,
-    validityPeriod: new BN(30),
+    access: new BN(30),
     duration: new BN(30),
     maxSupply: new BN(50),
   });

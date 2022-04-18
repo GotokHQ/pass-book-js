@@ -15,7 +15,7 @@ type Args = {
   description: string;
   uri: string;
   mutable: boolean;
-  validityPeriod: BN | null;
+  access: BN | null;
   duration: BN | null;
   maxSupply: BN | null;
 };
@@ -27,7 +27,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['description', 'string'],
     ['uri', 'string'],
     ['mutable', 'u8'],
-    ['validityPeriod', { kind: 'option', type: 'u64' }],
+    ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
   ]);
@@ -37,7 +37,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   description: string;
   uri: string;
   mutable: boolean;
-  validityPeriod: BN | null;
+  access: BN | null;
   duration: BN | null;
   maxSupply: BN | null;
 }
@@ -55,7 +55,7 @@ export type InitPassBookParams = {
   passBook: PublicKey;
   mint: PublicKey;
   duration: BN | null;
-  validityPeriod: BN | null;
+  access: BN | null;
   tokenAccount: PublicKey;
   maxSupply: BN | null;
 };
@@ -76,7 +76,7 @@ export class InitPassBook extends Transaction {
       masterMetadata,
       masterEdition,
       mint,
-      validityPeriod,
+      access,
       duration,
       tokenAccount,
       maxSupply,
@@ -87,7 +87,7 @@ export class InitPassBook extends Transaction {
       description,
       uri,
       mutable,
-      validityPeriod,
+      access,
       duration,
       maxSupply,
     });

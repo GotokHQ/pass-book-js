@@ -18,7 +18,7 @@ type InitPassBookParams = {
   source: PublicKey;
   store: PublicKey;
   duration: BN | null;
-  validityPeriod: BN | null;
+  access: BN | null;
   maxSupply: BN | null;
 };
 
@@ -65,7 +65,7 @@ export async function initPassBook(
     source,
     store,
     authority,
-    validityPeriod,
+    access,
     duration,
     maxSupply,
   }: InitPassBookParams,
@@ -86,7 +86,7 @@ export async function initPassBook(
       masterEdition,
       source,
       store,
-      validityPeriod,
+      access,
       tokenAccount,
       duration,
       maxSupply,

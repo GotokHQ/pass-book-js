@@ -39,7 +39,7 @@ PassData.SCHEMA = PassData.struct([
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['passType', 'u8'],
-    ['validityPeriod', { kind: 'option', type: 'u32' }],
+    ['access', { kind: 'option', type: 'u32' }],
     ['passState', 'u8'],
 ]);
 class Pass extends mpl_core_1.Account {

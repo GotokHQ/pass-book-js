@@ -6,7 +6,7 @@ declare type Args = {
     description: string;
     uri: string;
     mutable: boolean;
-    validityPeriod: BN | null;
+    access: BN | null;
     duration: BN | null;
     maxSupply: BN | null;
 };
@@ -17,7 +17,7 @@ export declare class InitPassBookArgs extends Borsh.Data<Args> {
     description: string;
     uri: string;
     mutable: boolean;
-    validityPeriod: BN | null;
+    access: BN | null;
     duration: BN | null;
     maxSupply: BN | null;
 }
@@ -34,7 +34,7 @@ export declare type InitPassBookParams = {
     passBook: PublicKey;
     mint: PublicKey;
     duration: BN | null;
-    validityPeriod: BN | null;
+    access: BN | null;
     tokenAccount: PublicKey;
     maxSupply: BN | null;
 };

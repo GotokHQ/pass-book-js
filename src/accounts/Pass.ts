@@ -34,7 +34,7 @@ export class PassData extends Borsh.Data<Args> {
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['passType', 'u8'],
-    ['validityPeriod', { kind: 'option', type: 'u32' }],
+    ['access', { kind: 'option', type: 'u32' }],
     ['passState', 'u8'],
   ]);
   key: AccountKey;
@@ -44,7 +44,7 @@ export class PassData extends Borsh.Data<Args> {
   description: string;
   uri: string;
   mutable: boolean;
-  validityPeriod?: number;
+  access?: number;
   collectionMint?: StringPublicKey;
   timeValidationAuthority?: StringPublicKey;
   passState: PassState;

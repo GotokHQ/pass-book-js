@@ -18,7 +18,7 @@ InitPassBookArgs.SCHEMA = InitPassBookArgs.struct([
     ['description', 'string'],
     ['uri', 'string'],
     ['mutable', 'u8'],
-    ['validityPeriod', { kind: 'option', type: 'u64' }],
+    ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
 ]);
@@ -26,13 +26,13 @@ class InitPassBook extends mpl_core_1.Transaction {
     constructor(options, params) {
         super(options);
         const { feePayer } = options;
-        const { name, description, uri, mutable, passBook, source, store, authority, masterMetadata, masterEdition, mint, validityPeriod, duration, tokenAccount, maxSupply, } = params;
+        const { name, description, uri, mutable, passBook, source, store, authority, masterMetadata, masterEdition, mint, access, duration, tokenAccount, maxSupply, } = params;
         const data = InitPassBookArgs.serialize({
             name,
             description,
             uri,
             mutable,
-            validityPeriod,
+            access,
             duration,
             maxSupply,
         });

@@ -11,7 +11,7 @@ export declare type PassBookDataArgs = {
     description: string;
     uri: string;
     mutable: boolean;
-    validityPeriod: BN | null;
+    access: BN | null;
     duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
@@ -26,7 +26,7 @@ export declare class PassBookData extends Borsh.Data<PassBookDataArgs> {
     uri: string;
     mutable: boolean;
     passState: PassState;
-    validityPeriod: BN | null;
+    access: BN | null;
     duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
