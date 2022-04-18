@@ -9,6 +9,7 @@ declare type Args = {
     access: BN | null;
     duration: BN | null;
     maxSupply: BN | null;
+    blurHash: string | null;
 };
 export declare class InitPassBookArgs extends Borsh.Data<Args> {
     static readonly SCHEMA: any;
@@ -20,6 +21,7 @@ export declare class InitPassBookArgs extends Borsh.Data<Args> {
     access: BN | null;
     duration: BN | null;
     maxSupply: BN | null;
+    blurHash: string | null;
 }
 export declare type InitPassBookParams = {
     name: string;
@@ -37,6 +39,7 @@ export declare type InitPassBookParams = {
     access: BN | null;
     tokenAccount: PublicKey;
     maxSupply: BN | null;
+    blurHash: string | null;
 };
 export declare class InitPassBook extends Transaction {
     constructor(options: TransactionCtorFields, params: InitPassBookParams);

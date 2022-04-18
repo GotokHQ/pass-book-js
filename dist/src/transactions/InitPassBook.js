@@ -21,12 +21,13 @@ InitPassBookArgs.SCHEMA = InitPassBookArgs.struct([
     ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
+    ['blurHash', { kind: 'option', type: 'string' }],
 ]);
 class InitPassBook extends mpl_core_1.Transaction {
     constructor(options, params) {
         super(options);
         const { feePayer } = options;
-        const { name, description, uri, mutable, passBook, source, store, authority, masterMetadata, masterEdition, mint, access, duration, tokenAccount, maxSupply, } = params;
+        const { name, description, uri, mutable, passBook, source, store, authority, masterMetadata, masterEdition, mint, access, duration, tokenAccount, maxSupply, blurHash, } = params;
         const data = InitPassBookArgs.serialize({
             name,
             description,
@@ -35,6 +36,7 @@ class InitPassBook extends mpl_core_1.Transaction {
             access,
             duration,
             maxSupply,
+            blurHash,
         });
         this.add(new web3_js_1.TransactionInstruction({
             keys: [
