@@ -8,7 +8,6 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import BN from 'bn.js';
-import { DurationType } from '../accounts/constants';
 import { PassBookProgram } from '../PassBookProgram';
 
 type Args = {
@@ -16,8 +15,8 @@ type Args = {
   description: string;
   uri: string;
   mutable: boolean;
-  durationType: DurationType;
-  duration: BN;
+  validityPeriod: BN | null;
+  duration: BN | null;
   maxSupply: BN | null;
 };
 
@@ -28,8 +27,8 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['description', 'string'],
     ['uri', 'string'],
     ['mutable', 'u8'],
-    ['durationType', 'u8'],
-    ['duration', 'u64'],
+    ['validityPeriod', { kind: 'option', type: 'u64' }],
+    ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
   ]);
 
@@ -38,8 +37,8 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   description: string;
   uri: string;
   mutable: boolean;
-  duration: BN;
-  durationType: DurationType;
+  validityPeriod: BN | null;
+  duration: BN | null;
   maxSupply: BN | null;
 }
 
@@ -55,8 +54,8 @@ export type InitPassBookParams = {
   source: PublicKey;
   passBook: PublicKey;
   mint: PublicKey;
-  duration: BN;
-  durationType: DurationType;
+  duration: BN | null;
+  validityPeriod: BN | null;
   tokenAccount: PublicKey;
   maxSupply: BN | null;
 };
@@ -77,7 +76,7 @@ export class InitPassBook extends Transaction {
       masterMetadata,
       masterEdition,
       mint,
-      durationType,
+      validityPeriod,
       duration,
       tokenAccount,
       maxSupply,
@@ -88,7 +87,7 @@ export class InitPassBook extends Transaction {
       description,
       uri,
       mutable,
-      durationType,
+      validityPeriod,
       duration,
       maxSupply,
     });

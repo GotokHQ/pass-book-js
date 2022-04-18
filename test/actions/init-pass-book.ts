@@ -3,7 +3,7 @@ import { logDebug } from '../utils';
 import { TransactionHandler } from '@metaplex-foundation/amman';
 import * as spl from '@solana/spl-token';
 import BN from 'bn.js';
-import { InitPassBook, PassBook, DurationType } from '../../src/pass-book';
+import { InitPassBook, PassBook } from '../../src/pass-book';
 
 type InitPassBookParams = {
   passBook: PublicKey;
@@ -17,8 +17,8 @@ type InitPassBookParams = {
   mutable: boolean;
   source: PublicKey;
   store: PublicKey;
-  durationType: DurationType;
-  duration: BN;
+  duration: BN | null;
+  validityPeriod: BN | null;
   maxSupply: BN | null;
 };
 
@@ -65,7 +65,7 @@ export async function initPassBook(
     source,
     store,
     authority,
-    durationType,
+    validityPeriod,
     duration,
     maxSupply,
   }: InitPassBookParams,
@@ -86,7 +86,7 @@ export async function initPassBook(
       masterEdition,
       source,
       store,
-      durationType,
+      validityPeriod,
       tokenAccount,
       duration,
       maxSupply,

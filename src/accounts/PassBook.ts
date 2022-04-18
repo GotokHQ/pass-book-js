@@ -9,7 +9,7 @@ import bs58 from 'bs58';
 import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { PassBookProgram } from '../PassBookProgram';
-import { AccountKey, PassState, DurationType } from './constants';
+import { AccountKey, PassState } from './constants';
 
 export type PassBookDataArgs = {
   key: AccountKey;
@@ -19,8 +19,8 @@ export type PassBookDataArgs = {
   description: string;
   uri: string;
   mutable: boolean;
-  durationType: DurationType;
-  duration: BN;
+  validityPeriod: BN | null;
+  duration: BN | null;
   totalPasses: BN;
   maxSupply: BN | null;
 };
@@ -35,8 +35,8 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['passState', 'u8'],
-    ['durationType', 'u8'],
-    ['duration', 'u64'],
+    ['validityPeriod', { kind: 'option', type: 'u64' }],
+    ['duration', { kind: 'option', type: 'u64' }],
     ['totalPasses', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
   ]);
@@ -48,8 +48,8 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   uri: string;
   mutable: boolean;
   passState: PassState;
-  durationType: DurationType;
-  duration: BN;
+  validityPeriod: BN | null;
+  duration: BN | null;
   totalPasses: BN;
   maxSupply: BN | null;
 

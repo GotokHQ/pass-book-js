@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DurationType = exports.PassState = exports.AccountKey = void 0;
+exports.PassState = exports.AccountKey = void 0;
 var AccountKey;
 (function (AccountKey) {
     AccountKey[AccountKey["Uninitialized"] = 0] = "Uninitialized";
@@ -15,11 +15,4 @@ var PassState;
     PassState[PassState["Deactivated"] = 2] = "Deactivated";
     PassState[PassState["Ended"] = 3] = "Ended";
 })(PassState = exports.PassState || (exports.PassState = {}));
-var DurationType;
-(function (DurationType) {
-    DurationType[DurationType["Minutes"] = 0] = "Minutes";
-    DurationType[DurationType["Hours"] = 1] = "Hours";
-    DurationType[DurationType["Days"] = 2] = "Days";
-    DurationType[DurationType["Unlimited"] = 3] = "Unlimited";
-})(DurationType = exports.DurationType || (exports.DurationType = {}));
 //# sourceMappingURL=constants.js.map

@@ -40,8 +40,6 @@ PassData.SCHEMA = PassData.struct([
     ['mutable', 'u8'],
     ['passType', 'u8'],
     ['validityPeriod', { kind: 'option', type: 'u32' }],
-    ['collectionMint', { kind: 'option', type: 'pubkeyAsString' }],
-    ['timeValidationAuthority', { kind: 'option', type: 'pubkeyAsString' }],
     ['passState', 'u8'],
 ]);
 class Pass extends mpl_core_1.Account {

@@ -10,9 +10,3 @@ export declare enum PassState {
     Deactivated = 2,
     Ended = 3
 }
-export declare enum DurationType {
-    Minutes = 0,
-    Hours = 1,
-    Days = 2,
-    Unlimited = 3
-}

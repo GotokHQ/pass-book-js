@@ -2,7 +2,7 @@
 import { Borsh, StringPublicKey, AnyPublicKey, Account } from '@metaplex-foundation/mpl-core';
 import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
-import { AccountKey, PassState, DurationType } from './constants';
+import { AccountKey, PassState } from './constants';
 export declare type PassBookDataArgs = {
     key: AccountKey;
     mint: StringPublicKey;
@@ -11,8 +11,8 @@ export declare type PassBookDataArgs = {
     description: string;
     uri: string;
     mutable: boolean;
-    durationType: DurationType;
-    duration: BN;
+    validityPeriod: BN | null;
+    duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
 };
@@ -26,8 +26,8 @@ export declare class PassBookData extends Borsh.Data<PassBookDataArgs> {
     uri: string;
     mutable: boolean;
     passState: PassState;
-    durationType: DurationType;
-    duration: BN;
+    validityPeriod: BN | null;
+    duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
     constructor(args: PassBookDataArgs);

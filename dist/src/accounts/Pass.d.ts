@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { Borsh, StringPublicKey, AnyPublicKey, Account } from '@metaplex-foundation/mpl-core';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
-import { AccountKey, PassState, DurationType } from './constants';
+import { AccountKey, PassState } from './constants';
 declare type Args = {
     key: AccountKey;
     mint: StringPublicKey;
@@ -10,7 +10,6 @@ declare type Args = {
     description: string;
     uri: string;
     mutable: boolean;
-    passType: DurationType;
     duration: number | null;
     passState: PassState;
 };
@@ -23,7 +22,6 @@ export declare class PassData extends Borsh.Data<Args> {
     description: string;
     uri: string;
     mutable: boolean;
-    passType: DurationType;
     validityPeriod?: number;
     collectionMint?: StringPublicKey;
     timeValidationAuthority?: StringPublicKey;

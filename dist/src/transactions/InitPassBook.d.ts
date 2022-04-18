@@ -1,14 +1,13 @@
 import { Borsh, Transaction } from '@metaplex-foundation/mpl-core';
 import { PublicKey, TransactionCtorFields } from '@solana/web3.js';
 import BN from 'bn.js';
-import { DurationType } from '../accounts/constants';
 declare type Args = {
     name: string;
     description: string;
     uri: string;
     mutable: boolean;
-    durationType: DurationType;
-    duration: BN;
+    validityPeriod: BN | null;
+    duration: BN | null;
     maxSupply: BN | null;
 };
 export declare class InitPassBookArgs extends Borsh.Data<Args> {
@@ -18,8 +17,8 @@ export declare class InitPassBookArgs extends Borsh.Data<Args> {
     description: string;
     uri: string;
     mutable: boolean;
-    duration: BN;
-    durationType: DurationType;
+    validityPeriod: BN | null;
+    duration: BN | null;
     maxSupply: BN | null;
 }
 export declare type InitPassBookParams = {
@@ -34,8 +33,8 @@ export declare type InitPassBookParams = {
     source: PublicKey;
     passBook: PublicKey;
     mint: PublicKey;
-    duration: BN;
-    durationType: DurationType;
+    duration: BN | null;
+    validityPeriod: BN | null;
     tokenAccount: PublicKey;
     maxSupply: BN | null;
 };
