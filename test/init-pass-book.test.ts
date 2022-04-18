@@ -69,6 +69,7 @@ test('init-pass-book-account: success', async (t) => {
     access: new BN(30),
     duration: new BN(30),
     maxSupply: new BN(100),
+    blurHash: null,
   });
   logDebug(createTxDetails.txSummary.logMessages.join('\n'));
 
@@ -157,6 +158,7 @@ test('init-pass-book-account: failure', async (t) => {
     access: new BN(30),
     duration: new BN(30),
     maxSupply: new BN(50),
+    blurHash: null,
   });
   console.log('createTxDetails', createTxDetails);
 

@@ -20,6 +20,7 @@ type InitPassBookParams = {
   duration: BN | null;
   access: BN | null;
   maxSupply: BN | null;
+  blurHash: string | null;
 };
 
 // -----------------
@@ -68,6 +69,7 @@ export async function initPassBook(
     access,
     duration,
     maxSupply,
+    blurHash,
   }: InitPassBookParams,
 ) {
   const passBook = await PassBook.getPDA(mint);
@@ -90,6 +92,7 @@ export async function initPassBook(
       tokenAccount,
       duration,
       maxSupply,
+      blurHash,
     },
   );
   const createTxDetails = await transactionHandler.sendAndConfirmTransaction(initPassTx, [], {

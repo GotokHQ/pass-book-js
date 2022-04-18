@@ -18,6 +18,7 @@ type Args = {
   access: BN | null;
   duration: BN | null;
   maxSupply: BN | null;
+  blurHash: string | null;
 };
 
 export class InitPassBookArgs extends Borsh.Data<Args> {
@@ -30,6 +31,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
+    ['blurHash', { kind: 'option', type: 'string' }],
   ]);
 
   instruction = 0;
@@ -40,6 +42,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   access: BN | null;
   duration: BN | null;
   maxSupply: BN | null;
+  blurHash: string | null;
 }
 
 export type InitPassBookParams = {
@@ -58,6 +61,7 @@ export type InitPassBookParams = {
   access: BN | null;
   tokenAccount: PublicKey;
   maxSupply: BN | null;
+  blurHash: string | null;
 };
 
 export class InitPassBook extends Transaction {
@@ -80,6 +84,7 @@ export class InitPassBook extends Transaction {
       duration,
       tokenAccount,
       maxSupply,
+      blurHash,
     } = params;
 
     const data = InitPassBookArgs.serialize({
@@ -90,6 +95,7 @@ export class InitPassBook extends Transaction {
       access,
       duration,
       maxSupply,
+      blurHash,
     });
     this.add(
       new TransactionInstruction({
