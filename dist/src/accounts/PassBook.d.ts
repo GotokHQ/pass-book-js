@@ -15,6 +15,7 @@ export declare type PassBookDataArgs = {
     duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
+    blurHash: string | null;
 };
 export declare class PassBookData extends Borsh.Data<PassBookDataArgs> {
     static readonly SCHEMA: any;
@@ -30,6 +31,7 @@ export declare class PassBookData extends Borsh.Data<PassBookDataArgs> {
     duration: BN | null;
     totalPasses: BN;
     maxSupply: BN | null;
+    blurHash: string | null;
     constructor(args: PassBookDataArgs);
 }
 export declare class PassBook extends Account<PassBookData> {

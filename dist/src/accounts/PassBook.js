@@ -20,12 +20,14 @@ const PassBookProgram_1 = require("../PassBookProgram");
 const constants_1 = require("./constants");
 class PassBookData extends mpl_core_1.Borsh.Data {
     constructor(args) {
+        var _a;
         super(args);
         const REPLACE = new RegExp('\u0000', 'g');
         this.key = constants_1.AccountKey.PassBook;
         this.name = args.name.replace(REPLACE, '');
         this.description = args.description.replace(REPLACE, '');
         this.uri = args.uri.replace(REPLACE, '');
+        this.blurHash = (_a = args.blurHash) === null || _a === void 0 ? void 0 : _a.replace(REPLACE, '');
     }
 }
 exports.PassBookData = PassBookData;
@@ -42,6 +44,7 @@ PassBookData.SCHEMA = PassBookData.struct([
     ['duration', { kind: 'option', type: 'u64' }],
     ['totalPasses', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
+    ['blurHash', { kind: 'option', type: 'string' }],
 ]);
 class PassBook extends mpl_core_1.Account {
     constructor(pubkey, info) {

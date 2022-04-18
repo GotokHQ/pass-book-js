@@ -23,6 +23,7 @@ export type PassBookDataArgs = {
   duration: BN | null;
   totalPasses: BN;
   maxSupply: BN | null;
+  blurHash: string | null;
 };
 
 export class PassBookData extends Borsh.Data<PassBookDataArgs> {
@@ -39,6 +40,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['duration', { kind: 'option', type: 'u64' }],
     ['totalPasses', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
+    ['blurHash', { kind: 'option', type: 'string' }],
   ]);
   key: AccountKey;
   mint: StringPublicKey;
@@ -52,6 +54,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   duration: BN | null;
   totalPasses: BN;
   maxSupply: BN | null;
+  blurHash: string | null;
 
   constructor(args: PassBookDataArgs) {
     super(args);
@@ -60,6 +63,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     this.name = args.name.replace(REPLACE, '');
     this.description = args.description.replace(REPLACE, '');
     this.uri = args.uri.replace(REPLACE, '');
+    this.blurHash = args.blurHash?.replace(REPLACE, '');
   }
 }
 
