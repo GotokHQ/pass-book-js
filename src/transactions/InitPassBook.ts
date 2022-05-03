@@ -3,6 +3,7 @@ import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   PublicKey,
   SystemProgram,
+  SYSVAR_CLOCK_PUBKEY,
   SYSVAR_RENT_PUBKEY,
   TransactionCtorFields,
   TransactionInstruction,
@@ -19,6 +20,7 @@ type Args = {
   duration: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
+  price: BN;
 };
 
 export class InitPassBookArgs extends Borsh.Data<Args> {
@@ -32,6 +34,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
+    ['price', 'u64 '],
   ]);
 
   instruction = 0;
@@ -43,6 +46,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   duration: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
+  price: BN;
 }
 
 export type InitPassBookParams = {
@@ -62,6 +66,10 @@ export type InitPassBookParams = {
   tokenAccount: PublicKey;
   maxSupply: BN | null;
   blurHash: string | null;
+  price: BN;
+  priceMint: PublicKey;
+  payouts: PublicKey[];
+  payoutTokenAccounts: PublicKey[];
 };
 
 export class InitPassBook extends Transaction {
@@ -85,6 +93,10 @@ export class InitPassBook extends Transaction {
       tokenAccount,
       maxSupply,
       blurHash,
+      price,
+      priceMint,
+      payouts,
+      payoutTokenAccounts,
     } = params;
 
     const data = InitPassBookArgs.serialize({
@@ -96,71 +108,97 @@ export class InitPassBook extends Transaction {
       duration,
       maxSupply,
       blurHash,
+      price,
+    });
+
+    const keys = [
+      {
+        pubkey: passBook,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: source,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: tokenAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: store,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: authority,
+        isSigner: true,
+        isWritable: false,
+      },
+      {
+        pubkey: feePayer,
+        isSigner: true,
+        isWritable: false,
+      },
+      {
+        pubkey: mint,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: masterMetadata,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: masterEdition,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: priceMint,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: SYSVAR_CLOCK_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: SYSVAR_RENT_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: SystemProgram.programId,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: TOKEN_PROGRAM_ID,
+        isSigner: false,
+        isWritable: false,
+      },
+    ];
+
+    payouts.forEach((payout, index) => {
+      keys.push({
+        pubkey: payout,
+        isSigner: false,
+        isWritable: true,
+      });
+      keys.push({
+        pubkey: payoutTokenAccounts[index],
+        isSigner: false,
+        isWritable: true,
+      });
     });
     this.add(
       new TransactionInstruction({
-        keys: [
-          {
-            pubkey: passBook,
-            isSigner: false,
-            isWritable: true,
-          },
-          {
-            pubkey: source,
-            isSigner: false,
-            isWritable: true,
-          },
-          {
-            pubkey: tokenAccount,
-            isSigner: false,
-            isWritable: true,
-          },
-          {
-            pubkey: store,
-            isSigner: false,
-            isWritable: true,
-          },
-          {
-            pubkey: authority,
-            isSigner: true,
-            isWritable: false,
-          },
-          {
-            pubkey: feePayer,
-            isSigner: true,
-            isWritable: false,
-          },
-          {
-            pubkey: mint,
-            isSigner: false,
-            isWritable: false,
-          },
-          {
-            pubkey: masterMetadata,
-            isSigner: false,
-            isWritable: false,
-          },
-          {
-            pubkey: masterEdition,
-            isSigner: false,
-            isWritable: false,
-          },
-          {
-            pubkey: SYSVAR_RENT_PUBKEY,
-            isSigner: false,
-            isWritable: false,
-          },
-          {
-            pubkey: SystemProgram.programId,
-            isSigner: false,
-            isWritable: false,
-          },
-          {
-            pubkey: TOKEN_PROGRAM_ID,
-            isSigner: false,
-            isWritable: false,
-          },
-        ],
+        keys,
         programId: PassBookProgram.PUBKEY,
         data,
       }),

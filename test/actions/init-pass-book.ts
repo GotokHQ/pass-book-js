@@ -21,6 +21,11 @@ type InitPassBookParams = {
   access: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
+  price: BN;
+  priceMint: PublicKey;
+  payouts: PublicKey[];
+  payoutTokenAccounts: PublicKey[];
+  signers: Keypair[];
 };
 
 // -----------------
@@ -70,6 +75,11 @@ export async function initPassBook(
     duration,
     maxSupply,
     blurHash,
+    price,
+    priceMint,
+    payouts,
+    payoutTokenAccounts,
+    signers,
   }: InitPassBookParams,
 ) {
   const passBook = await PassBook.getPDA(mint);
@@ -93,9 +103,13 @@ export async function initPassBook(
       duration,
       maxSupply,
       blurHash,
+      price,
+      priceMint,
+      payouts,
+      payoutTokenAccounts,
     },
   );
-  const createTxDetails = await transactionHandler.sendAndConfirmTransaction(initPassTx, [], {
+  const createTxDetails = await transactionHandler.sendAndConfirmTransaction(initPassTx, signers, {
     skipPreflight: true,
   });
   return { passBook, createTxDetails };

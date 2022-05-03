@@ -15,7 +15,7 @@ export const logTrace = debug('pass:tm-test:trace');
 
 export const programIds = {
   metadata: 'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
-  passbook: 'passK9sjcBkUzWu35gf2x4EmpcrkZB9NXgHWtgAzxhB',
+  passbook: 'passjvPvHQWN4SvBCmHk1gdrtBvoHRERtQK9MKemreQ',
 };
 
 export const DEVNET = clusterApiUrl('devnet');

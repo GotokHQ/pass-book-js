@@ -1,6 +1,6 @@
 import test from 'tape';
 import spok from 'spok';
-import { Connection, Keypair } from '@solana/web3.js';
+import { Connection, Keypair, SystemProgram } from '@solana/web3.js';
 import { connectionURL, createMasterEdition, killStuckProcess } from './utils';
 import { airdrop, PayerTransactionHandler } from '@metaplex-foundation/amman';
 
@@ -34,6 +34,9 @@ test('init-pass-book-account: success', async (t) => {
   const connection = new Connection(connectionURL, 'confirmed');
   const transactionHandler = new PayerTransactionHandler(connection, payer);
   await airdrop(connection, payer.publicKey, 2);
+
+  const pbk1 = await PassBook.getPDA('8P8sxkdbCViGwquWD8LFyR2UrhK3hPVypTW8Eoe5SrSq');
+  console.log('pbk1', pbk1.toBase58());
 
   const initMetadataData = new DataV2({
     uri: URI,
@@ -70,6 +73,11 @@ test('init-pass-book-account: success', async (t) => {
     duration: new BN(30),
     maxSupply: new BN(100),
     blurHash: null,
+    price: new BN(0),
+    priceMint: SystemProgram.programId,
+    payouts: [],
+    payoutTokenAccounts: [],
+    signers: [],
   });
   logDebug(createTxDetails.txSummary.logMessages.join('\n'));
 
@@ -159,9 +167,12 @@ test('init-pass-book-account: failure', async (t) => {
     duration: new BN(30),
     maxSupply: new BN(50),
     blurHash: null,
+    price: new BN(0),
+    priceMint: SystemProgram.programId,
+    payouts: [],
+    payoutTokenAccounts: [],
+    signers: [],
   });
-  console.log('createTxDetails', createTxDetails);
-
   logDebug(createTxDetails.txSummary.logMessages.join('\n'));
 
   t.deepEqual(
