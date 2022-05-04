@@ -3,6 +3,7 @@ export enum AccountKey {
   Pass = 1,
   PassStore = 2,
   PassBook = 3,
+  Payout = 4,
 }
 
 export enum PassState {

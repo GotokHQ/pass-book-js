@@ -70,6 +70,7 @@ export type InitPassBookParams = {
   priceMint: PublicKey;
   payouts: PublicKey[];
   payoutTokenAccounts: PublicKey[];
+  gateKeeper?: PublicKey;
 };
 
 export class InitPassBook extends Transaction {
@@ -97,6 +98,7 @@ export class InitPassBook extends Transaction {
       priceMint,
       payouts,
       payoutTokenAccounts,
+      gateKeeper,
     } = params;
 
     const data = InitPassBookArgs.serialize({
@@ -196,6 +198,13 @@ export class InitPassBook extends Transaction {
         isWritable: true,
       });
     });
+    if (gateKeeper) {
+      keys.push({
+        pubkey: gateKeeper,
+        isSigner: true,
+        isWritable: false,
+      });
+    }
     this.add(
       new TransactionInstruction({
         keys,
