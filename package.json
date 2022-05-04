@@ -5,6 +5,7 @@
     "main": "dist/src/pass-book.js",
     "types": "dist/src/pass-book.d.ts",
     "scripts": {
+        "prepack": "yarn build",
         "check:publish-ready": "yarn build && yarn test",
         "preversion": "yarn check:publish-ready",
         "postversion": "git add package.json && git commit -m \"chore: update $npm_package_name to v$npm_package_version\" && git tag $npm_package_name@$npm_package_version",
