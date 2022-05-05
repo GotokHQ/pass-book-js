@@ -4,9 +4,7 @@ import {
   AnyPublicKey,
   ERROR_INVALID_OWNER,
   Account,
-  TokenAccount,
 } from '@metaplex-foundation/mpl-core';
-import BN from 'bn.js';
 import bs58 from 'bs58';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { PassBookProgram } from '../PassBookProgram';
@@ -116,33 +114,6 @@ export class Pass extends Account<PassData> {
 
   static async findByMint(connection: Connection, mint: AnyPublicKey): Promise<Pass> {
     const pda = await Pass.getPDA(mint);
-
     return Pass.load(connection, pda);
-  }
-
-  static async findInfoByOwner(
-    connection: Connection,
-    owner: AnyPublicKey,
-  ): Promise<Map<AnyPublicKey, AccountInfo<Buffer>>> {
-    const accounts = await TokenAccount.getTokenAccountsByOwner(connection, owner);
-
-    const metadataPdaLookups = accounts.reduce((memo, { data }) => {
-      // Only include tokens where amount equal to 1.
-      // Note: This is not the same as mint supply.
-      // NFTs by definition have supply of 1, but an account balance > 1 implies a mint supply > 1.
-      return data.amount?.eq(new BN(1)) ? [...memo, Pass.getPDA(data.mint)] : memo;
-    }, []);
-
-    const metadataAddresses = await Promise.all(metadataPdaLookups);
-
-    return Account.getInfos(connection, metadataAddresses);
-  }
-
-  static async findPassDataByOwner(
-    connection: Connection,
-    owner: AnyPublicKey,
-  ): Promise<PassData[]> {
-    const tokenInfo = await Pass.findInfoByOwner(connection, owner);
-    return Array.from(tokenInfo.values()).map((m) => PassData.deserialize(m.data));
   }
 }
