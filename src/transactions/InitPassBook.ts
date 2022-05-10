@@ -34,7 +34,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['duration', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
-    ['price', 'u64 '],
+    ['price', 'u64'],
   ]);
 
   instruction = 0;
@@ -100,7 +100,6 @@ export class InitPassBook extends Transaction {
       payoutTokenAccounts,
       gateKeeper,
     } = params;
-
     const data = InitPassBookArgs.serialize({
       name,
       description,

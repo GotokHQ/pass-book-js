@@ -99,6 +99,7 @@ test('init-pass-book-account: success', async (t) => {
   t.assert(passBookData.access.eq(new BN(30)), 'Validity period invalid');
   t.assert(passBookData.maxSupply.eq(new BN(100)), 'Max supply invalid');
   t.assert(passBookData.totalPasses.eq(new BN(0)), 'total passes should be 0');
+  t.assert(passBookData.price.eq(new BN(0)), 'total passes should be 0');
   spok(t, passBookData, {
     $topic: 'passBookData',
     key: AccountKey.PassBook,
@@ -107,7 +108,8 @@ test('init-pass-book-account: success', async (t) => {
     name: NAME,
     description: DESCRIPTION,
     uri: URI,
-    mutable: 1,
+    mutable: true,
+    priceMint: isKeyOf(SystemProgram.programId),
     passState: PassState.NotActivated,
   });
   // console.log('authority ', payer.publicKey.toString());

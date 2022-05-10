@@ -8,8 +8,8 @@ import {
 import bs58 from 'bs58';
 import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
-import { PassBookProgram } from '../PassBookProgram';
 import { AccountKey, PassState } from './constants';
+import { PassBookProgram } from 'src/PassBookProgram';
 
 export type PassBookDataArgs = {
   key: AccountKey;
@@ -18,12 +18,16 @@ export type PassBookDataArgs = {
   name: string;
   description: string;
   uri: string;
-  mutable: boolean;
+  mutable: number;
   access: BN | null;
   duration: BN | null;
   totalPasses: BN;
   maxSupply: BN | null;
   blurHash: string | null;
+  createdAt: BN;
+  price: BN;
+  priceMint: StringPublicKey;
+  gateKeeper: StringPublicKey | null;
 };
 
 export class PassBookData extends Borsh.Data<PassBookDataArgs> {
@@ -41,6 +45,10 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['totalPasses', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
+    ['createdAt', 'u64'],
+    ['price', 'u64'],
+    ['priceMint', 'pubkeyAsString'],
+    ['gateKeeper', { kind: 'option', type: 'pubkeyAsString' }],
   ]);
   key: AccountKey;
   mint: StringPublicKey;
@@ -55,6 +63,10 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   totalPasses: BN;
   maxSupply: BN | null;
   blurHash: string | null;
+  createdAt: BN;
+  price: BN;
+  priceMint: StringPublicKey;
+  gateKeeper: StringPublicKey | null;
 
   constructor(args: PassBookDataArgs) {
     super(args);
@@ -64,6 +76,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     this.description = args.description.replace(REPLACE, '');
     this.uri = args.uri.replace(REPLACE, '');
     this.blurHash = args.blurHash?.replace(REPLACE, '');
+    this.mutable = args.mutable == 1;
   }
 }
 
