@@ -9,7 +9,7 @@ import bs58 from 'bs58';
 import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { AccountKey, PassState } from './constants';
-import { PassBookProgram } from 'src/PassBookProgram';
+import { PassBookProgram } from '../PassBookProgram';
 
 export type PassBookDataArgs = {
   key: AccountKey;
