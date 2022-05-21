@@ -37,7 +37,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['price', 'u64'],
   ]);
 
-  instruction = 0;
+  instruction = 4;
   name: string;
   description: string;
   uri: string;

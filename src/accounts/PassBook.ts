@@ -27,6 +27,7 @@ export type PassBookDataArgs = {
   createdAt: BN;
   price: BN;
   priceMint: StringPublicKey;
+  token: StringPublicKey;
   gateKeeper: StringPublicKey | null;
 };
 
@@ -48,6 +49,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['createdAt', 'u64'],
     ['price', 'u64'],
     ['priceMint', 'pubkeyAsString'],
+    ['token', 'pubkeyAsString'],
     ['gateKeeper', { kind: 'option', type: 'pubkeyAsString' }],
   ]);
   key: AccountKey;
@@ -66,6 +68,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   createdAt: BN;
   price: BN;
   priceMint: StringPublicKey;
+  token: StringPublicKey;
   gateKeeper: StringPublicKey | null;
 
   constructor(args: PassBookDataArgs) {
