@@ -1,5 +1,4 @@
 import { Borsh, Transaction } from '@metaplex-foundation/mpl-core';
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   PublicKey,
@@ -10,7 +9,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import BN from 'bn.js';
-import { TOKEN_METADATA_PROGRAM_ID } from 'src/accounts';
+import { TOKEN_METADATA_PROGRAM_ID } from '../accounts';
 import { PassBookProgram } from '../PassBookProgram';
 
 type Args = {
