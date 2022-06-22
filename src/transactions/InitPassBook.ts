@@ -1,4 +1,5 @@
 import { Borsh, Transaction } from '@metaplex-foundation/mpl-core';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   PublicKey,
@@ -9,6 +10,7 @@ import {
   TransactionInstruction,
 } from '@solana/web3.js';
 import BN from 'bn.js';
+import { TOKEN_METADATA_PROGRAM_ID } from 'src/accounts';
 import { PassBookProgram } from '../PassBookProgram';
 
 type Args = {
@@ -151,7 +153,7 @@ export class InitPassBook extends Transaction {
       {
         pubkey: masterMetadata,
         isSigner: false,
-        isWritable: false,
+        isWritable: true,
       },
       {
         pubkey: masterEdition,
@@ -180,6 +182,11 @@ export class InitPassBook extends Transaction {
       },
       {
         pubkey: TOKEN_PROGRAM_ID,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: TOKEN_METADATA_PROGRAM_ID,
         isSigner: false,
         isWritable: false,
       },
