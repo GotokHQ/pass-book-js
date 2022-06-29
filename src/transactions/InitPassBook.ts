@@ -22,6 +22,9 @@ type Args = {
   maxSupply: BN | null;
   blurHash: string | null;
   price: BN;
+  hasReferrer: boolean;
+  hasMarketAuthority: boolean;
+  referralEndDate: BN | null;
 };
 
 export class InitPassBookArgs extends Borsh.Data<Args> {
@@ -36,6 +39,9 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
     ['price', 'u64'],
+    ['hasReferrer', 'u8'],
+    ['hasMarketAuthority', 'u8'],
+    ['referralEndDate', { kind: 'option', type: 'u64' }],
   ]);
 
   instruction = 4;
@@ -48,7 +54,16 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   maxSupply: BN | null;
   blurHash: string | null;
   price: BN;
+  hasReferrer: boolean;
+  hasMarketAuthority: boolean;
+  referralEndDate: BN | null;
 }
+
+export type PayoutInfoArgs = {
+  authority: PublicKey;
+  payoutAccount: PublicKey;
+  tokenAccount: PublicKey;
+};
 
 export type InitPassBookParams = {
   name: string;
@@ -69,9 +84,10 @@ export type InitPassBookParams = {
   blurHash: string | null;
   price: BN;
   priceMint: PublicKey;
-  payouts: PublicKey[];
-  payoutTokenAccounts: PublicKey[];
-  gateKeeper?: PublicKey;
+  referralEndDate: BN | null;
+  marketPayout: PayoutInfoArgs | null;
+  referrerPayout: PayoutInfoArgs | null;
+  creatorsPayout: PayoutInfoArgs[];
 };
 
 export class InitPassBook extends Transaction {
@@ -97,9 +113,10 @@ export class InitPassBook extends Transaction {
       blurHash,
       price,
       priceMint,
-      payouts,
-      payoutTokenAccounts,
-      gateKeeper,
+      referralEndDate,
+      marketPayout,
+      referrerPayout,
+      creatorsPayout,
     } = params;
     const data = InitPassBookArgs.serialize({
       name,
@@ -111,6 +128,9 @@ export class InitPassBook extends Transaction {
       maxSupply,
       blurHash,
       price,
+      hasReferrer: !!referrerPayout,
+      hasMarketAuthority: !!marketPayout,
+      referralEndDate,
     });
 
     const keys = [
@@ -179,6 +199,57 @@ export class InitPassBook extends Transaction {
         isSigner: false,
         isWritable: false,
       },
+    ];
+
+    creatorsPayout.forEach((payout) => {
+      keys.push({
+        pubkey: payout.payoutAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+      keys.push({
+        pubkey: payout.tokenAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+    });
+
+    if (marketPayout) {
+      keys.push({
+        pubkey: marketPayout.authority,
+        isSigner: true,
+        isWritable: false,
+      });
+      keys.push({
+        pubkey: marketPayout.payoutAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+      keys.push({
+        pubkey: marketPayout.tokenAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+    }
+
+    if (referrerPayout) {
+      keys.push({
+        pubkey: referrerPayout.authority,
+        isSigner: false,
+        isWritable: false,
+      });
+      keys.push({
+        pubkey: referrerPayout.payoutAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+      keys.push({
+        pubkey: referrerPayout.tokenAccount,
+        isSigner: false,
+        isWritable: true,
+      });
+    }
+    keys.push(
       {
         pubkey: TOKEN_PROGRAM_ID,
         isSigner: false,
@@ -189,27 +260,7 @@ export class InitPassBook extends Transaction {
         isSigner: false,
         isWritable: false,
       },
-    ];
-
-    payouts.forEach((payout, index) => {
-      keys.push({
-        pubkey: payout,
-        isSigner: false,
-        isWritable: true,
-      });
-      keys.push({
-        pubkey: payoutTokenAccounts[index],
-        isSigner: false,
-        isWritable: true,
-      });
-    });
-    if (gateKeeper) {
-      keys.push({
-        pubkey: gateKeeper,
-        isSigner: true,
-        isWritable: false,
-      });
-    }
+    );
     this.add(
       new TransactionInstruction({
         keys,

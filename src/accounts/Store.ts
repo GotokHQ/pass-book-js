@@ -10,12 +10,16 @@ import BN from 'bn.js';
 import { AccountKey } from './constants';
 import { PassBookProgram } from '../PassBookProgram';
 
+export const MAX_PASS_STORE_DATA_LEN = 163;
+
 type Args = {
   key: AccountKey;
   authority: StringPublicKey;
   redemptionsCount: BN;
   passCount: BN;
   passBookCount: BN;
+  referrer: StringPublicKey;
+  referralEndDate: BN | null;
 };
 
 export class StoreData extends Borsh.Data<Args> {
@@ -25,6 +29,8 @@ export class StoreData extends Borsh.Data<Args> {
     ['redemptionsCount', 'u64'],
     ['passCount', 'u64'],
     ['passBookCount', 'u64'],
+    ['referrer', { kind: 'option', type: 'pubkeyAsString' }],
+    ['referralEndDate', { kind: 'option', type: 'u64' }],
   ]);
   key: AccountKey;
   mint: StringPublicKey;
@@ -32,6 +38,8 @@ export class StoreData extends Borsh.Data<Args> {
   redemptionsCount: string;
   passCount: string;
   passBookCount: string;
+  referrer: StringPublicKey | null;
+  referralEndDate: BN | null;
 
   constructor(args: Args) {
     super(args);

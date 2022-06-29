@@ -10,6 +10,8 @@ import { AccountInfo, PublicKey } from '@solana/web3.js';
 import { PassBookProgram } from '../PassBookProgram';
 import { AccountKey } from './constants';
 
+export const MAX_PAYOUT_DATA_LEN = 117;
+
 export type PayoutDataArgs = {
   key: AccountKey;
   mint: StringPublicKey;

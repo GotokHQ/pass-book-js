@@ -11,6 +11,8 @@ import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { AccountKey, PassState } from './constants';
 import { PassBookProgram } from '../PassBookProgram';
 
+export const MAX_PASS_BOOK_DATA_LEN = 1296;
+
 export type PassBookDataArgs = {
   key: AccountKey;
   mint: StringPublicKey;
@@ -28,7 +30,7 @@ export type PassBookDataArgs = {
   price: BN;
   priceMint: StringPublicKey;
   token: StringPublicKey;
-  gateKeeper: StringPublicKey | null;
+  marketAuthority: StringPublicKey | null;
   creators: StringPublicKey[] | null;
 };
 
@@ -51,7 +53,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['price', 'u64'],
     ['priceMint', 'pubkeyAsString'],
     ['token', 'pubkeyAsString'],
-    ['gateKeeper', { kind: 'option', type: 'pubkeyAsString' }],
+    ['marketAuthority', { kind: 'option', type: 'pubkeyAsString' }],
     ['creators', { kind: 'option', type: ['pubkeyAsString'] }],
   ]);
   key: AccountKey;
@@ -71,7 +73,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   price: BN;
   priceMint: StringPublicKey;
   token: StringPublicKey;
-  gateKeeper: StringPublicKey | null;
+  marketAuthority: StringPublicKey | null;
   creators: StringPublicKey[] | null;
 
   constructor(args: PassBookDataArgs) {
