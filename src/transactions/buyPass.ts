@@ -1,4 +1,5 @@
 import { Borsh, Transaction } from '@metaplex-foundation/mpl-core';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   PublicKey,
   SystemProgram,
@@ -7,54 +8,27 @@ import {
   TransactionCtorFields,
   TransactionInstruction,
 } from '@solana/web3.js';
-import BN from 'bn.js';
+
 import { PassBookProgram } from '../PassBookProgram';
 
 type Args = {
-  name: string;
-  description: string;
-  uri: string;
-  mutable: boolean;
-  access: BN | null;
-  duration: BN | null;
-  maxSupply: BN | null;
-  blurHash: string | null;
-  price: BN;
-  hasReferrer: boolean;
-  hasMarketAuthority: boolean;
-  referralEndDate: BN | null;
+  marketFeeBasisPoint: number;
+  referralShare: number;
+  referralKickBackShare: number;
 };
 
-export class InitPassBookArgs extends Borsh.Data<Args> {
-  static readonly SCHEMA = InitPassBookArgs.struct([
+export class BuyPassArgs extends Borsh.Data<Args> {
+  static readonly SCHEMA = BuyPassArgs.struct([
     ['instruction', 'u8'],
-    ['name', 'string'],
-    ['description', 'string'],
-    ['uri', 'string'],
-    ['mutable', 'u8'],
-    ['access', { kind: 'option', type: 'u64' }],
-    ['duration', { kind: 'option', type: 'u64' }],
-    ['maxSupply', { kind: 'option', type: 'u64' }],
-    ['blurHash', { kind: 'option', type: 'string' }],
-    ['price', 'u64'],
-    ['hasReferrer', 'u8'],
-    ['hasMarketAuthority', 'u8'],
-    ['referralEndDate', { kind: 'option', type: 'u64' }],
+    ['marketFeeBasisPoint', 'u8'],
+    ['referralShare', 'u8'],
+    ['referralKickBackShare', 'u8'],
   ]);
 
-  instruction = 4;
-  name: string;
-  description: string;
-  uri: string;
-  mutable: boolean;
-  access: BN | null;
-  duration: BN | null;
-  maxSupply: BN | null;
-  blurHash: string | null;
-  price: BN;
-  hasReferrer: boolean;
-  hasMarketAuthority: boolean;
-  referralEndDate: BN | null;
+  instruction = 5;
+  marketFeeBasisPoint: number;
+  referralShare: number;
+  referralKickBackShare: number;
 }
 
 export type PayoutInfoArgs = {
@@ -63,62 +37,43 @@ export type PayoutInfoArgs = {
   tokenAccount: PublicKey;
 };
 
-export type InitPassBookParams = {
-  name: string;
-  description: string;
-  uri: string;
-  mutable: boolean;
-  authority: PublicKey;
+export type BuyPassParams = {
+  buyer: PublicKey;
   store: PublicKey;
   passBook: PublicKey;
-  mint: PublicKey;
-  duration: BN | null;
-  access: BN | null;
-  maxSupply: BN | null;
-  blurHash: string | null;
-  price: BN;
-  referralEndDate: BN | null;
+  buyerTokenAccount: PublicKey;
+  tradeHistory: PublicKey;
+  membership: PublicKey;
+  marketFeeBasisPoint: number;
+  referralShare: number;
+  referralKickBackShare: number;
   marketPayout: PayoutInfoArgs | null;
   referrerPayout: PayoutInfoArgs | null;
   creatorPayout: PayoutInfoArgs;
 };
 
-export class InitPassBook extends Transaction {
-  constructor(options: TransactionCtorFields, params: InitPassBookParams) {
+export class BuyPass extends Transaction {
+  constructor(options: TransactionCtorFields, params: BuyPassParams) {
     super(options);
     const { feePayer } = options;
     const {
-      name,
-      description,
-      uri,
-      mutable,
-      passBook,
+      buyer,
       store,
-      authority,
-      mint,
-      access,
-      duration,
-      maxSupply,
-      blurHash,
-      price,
-      referralEndDate,
+      passBook,
+      buyerTokenAccount,
+      marketFeeBasisPoint,
+      referralShare,
+      referralKickBackShare,
+      tradeHistory,
+      membership,
       marketPayout,
       referrerPayout,
       creatorPayout,
     } = params;
-    const data = InitPassBookArgs.serialize({
-      name,
-      description,
-      uri,
-      mutable,
-      access,
-      duration,
-      maxSupply,
-      blurHash,
-      price,
-      hasReferrer: !!referrerPayout,
-      hasMarketAuthority: !!marketPayout,
-      referralEndDate,
+    const data = BuyPassArgs.serialize({
+      marketFeeBasisPoint,
+      referralShare,
+      referralKickBackShare,
     });
 
     const keys = [
@@ -133,19 +88,29 @@ export class InitPassBook extends Transaction {
         isWritable: true,
       },
       {
-        pubkey: authority,
+        pubkey: buyer,
         isSigner: true,
-        isWritable: false,
+        isWritable: true,
+      },
+      {
+        pubkey: buyerTokenAccount,
+        isSigner: true,
+        isWritable: true,
       },
       {
         pubkey: feePayer,
         isSigner: true,
-        isWritable: false,
+        isWritable: true,
       },
       {
-        pubkey: mint,
+        pubkey: tradeHistory,
         isSigner: false,
-        isWritable: false,
+        isWritable: true,
+      },
+      {
+        pubkey: membership,
+        isSigner: false,
+        isWritable: true,
       },
       {
         pubkey: SYSVAR_CLOCK_PUBKEY,
@@ -209,6 +174,11 @@ export class InitPassBook extends Transaction {
         isWritable: true,
       });
     }
+    keys.push({
+      pubkey: TOKEN_PROGRAM_ID,
+      isSigner: false,
+      isWritable: false,
+    });
     this.add(
       new TransactionInstruction({
         keys,
