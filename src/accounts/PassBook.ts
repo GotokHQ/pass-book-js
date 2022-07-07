@@ -11,7 +11,7 @@ import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { AccountKey, PassBookState, PassState } from './constants';
 import { PassBookProgram } from '../PassBookProgram';
 
-export const MAX_PASS_BOOK_DATA_LEN = 1296;
+export const MAX_PASS_BOOK_DATA_LEN = 892;
 
 export type PassBookDataArgs = {
   key: AccountKey;
@@ -22,7 +22,7 @@ export type PassBookDataArgs = {
   uri: string;
   mutable: number;
   access: BN | null;
-  duration: BN | null;
+  maxUses: BN | null;
   supply: BN;
   maxSupply: BN | null;
   blurHash: string | null;
@@ -43,7 +43,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['access', { kind: 'option', type: 'u64' }],
-    ['duration', { kind: 'option', type: 'u64' }],
+    ['maxUses', { kind: 'option', type: 'u64' }],
     ['supply', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
@@ -61,7 +61,7 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   mutable: boolean;
   state: PassState;
   access: BN | null;
-  duration: BN | null;
+  maxUses: BN | null;
   supply: BN;
   maxSupply: BN | null;
   blurHash: string | null;

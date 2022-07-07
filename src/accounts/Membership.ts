@@ -10,8 +10,9 @@ import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
 import { AccountKey, MembershipState } from './constants';
 import { PassBookProgram } from '../PassBookProgram';
+import { Uses } from './Uses';
 
-export const MAX_PASS_BOOK_DATA_LEN = 1296;
+export const MAX_MEMBERSHIP_DATA_LEN = 192;
 
 export type MembershipDataArgs = {
   key: AccountKey;
@@ -22,18 +23,23 @@ export type MembershipDataArgs = {
   pass: StringPublicKey | null;
   expiresAt: BN | null;
   activatedAt: BN | null;
+  uses: Uses | null;
 };
 
 export class MembershipData extends Borsh.Data<MembershipDataArgs> {
-  static readonly SCHEMA = MembershipData.struct([
-    ['key', 'u8'],
-    ['store', 'pubkeyAsString'],
-    ['state', 'u8'],
-    ['owner', 'pubkeyAsString'],
-    ['passbook', { kind: 'option', type: 'pubkeyAsString' }],
-    ['pass', { kind: 'option', type: 'pubkeyAsString' }],
-    ['expiresAt', { kind: 'option', type: 'u64' }],
-    ['activatedAt', { kind: 'option', type: 'u64' }],
+  static readonly SCHEMA = new Map([
+    ...Uses.SCHEMA,
+    ...MembershipData.struct([
+      ['key', 'u8'],
+      ['store', 'pubkeyAsString'],
+      ['state', 'u8'],
+      ['owner', 'pubkeyAsString'],
+      ['passbook', { kind: 'option', type: 'pubkeyAsString' }],
+      ['pass', { kind: 'option', type: 'pubkeyAsString' }],
+      ['expiresAt', { kind: 'option', type: 'u64' }],
+      ['activatedAt', { kind: 'option', type: 'u64' }],
+      ['uses', { kind: 'option', type: Uses }],
+    ]),
   ]);
   key: AccountKey;
   store: StringPublicKey;
@@ -43,6 +49,7 @@ export class MembershipData extends Borsh.Data<MembershipDataArgs> {
   pass: StringPublicKey | null;
   expiresAt: BN | null;
   activatedAt: BN | null;
+  uses: Uses | null;
 
   constructor(args: MembershipDataArgs) {
     super(args);

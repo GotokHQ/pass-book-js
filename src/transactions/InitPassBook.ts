@@ -16,7 +16,7 @@ type Args = {
   uri: string;
   mutable: boolean;
   access: BN | null;
-  duration: BN | null;
+  maxUses: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
   price: BN;
@@ -33,7 +33,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['uri', 'string'],
     ['mutable', 'u8'],
     ['access', { kind: 'option', type: 'u64' }],
-    ['duration', { kind: 'option', type: 'u64' }],
+    ['maxUses', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
     ['price', 'u64'],
@@ -48,7 +48,7 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   uri: string;
   mutable: boolean;
   access: BN | null;
-  duration: BN | null;
+  maxUses: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
   price: BN;
@@ -72,7 +72,7 @@ export type InitPassBookParams = {
   store: PublicKey;
   passBook: PublicKey;
   mint: PublicKey;
-  duration: BN | null;
+  maxUses: BN | null;
   access: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
@@ -97,7 +97,7 @@ export class InitPassBook extends Transaction {
       authority,
       mint,
       access,
-      duration,
+      maxUses,
       maxSupply,
       blurHash,
       price,
@@ -112,7 +112,7 @@ export class InitPassBook extends Transaction {
       uri,
       mutable,
       access,
-      duration,
+      maxUses,
       maxSupply,
       blurHash,
       price,

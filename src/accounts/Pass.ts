@@ -18,7 +18,7 @@ type Args = {
   description: string;
   uri: string;
   mutable: boolean;
-  duration: number | null;
+  maxUses: number | null;
   passState: PassState;
 };
 

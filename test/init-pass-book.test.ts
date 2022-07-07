@@ -70,7 +70,7 @@ test('init-pass-book-account: success', async (t) => {
     authority: payer.publicKey,
     mutable: true,
     access: new BN(30),
-    duration: new BN(30),
+    maxUses: new BN(30),
     maxSupply: new BN(100),
     blurHash: null,
     price: new BN(0),
@@ -95,7 +95,7 @@ test('init-pass-book-account: success', async (t) => {
   const passBookData = PassBookData.deserialize<PassBookData, PassBookDataArgs>(
     <Buffer>passBookAccount.data,
   );
-  t.assert(passBookData.duration.eq(new BN(30)), 'Duration invalid');
+  t.assert(passBookData.maxUses.eq(new BN(30)), 'maxUses invalid');
   t.assert(passBookData.access.eq(new BN(30)), 'Validity period invalid');
   t.assert(passBookData.maxSupply.eq(new BN(100)), 'Max supply invalid');
   t.assert(passBookData.totalPasses.eq(new BN(0)), 'total passes should be 0');
@@ -116,8 +116,8 @@ test('init-pass-book-account: success', async (t) => {
   // console.log('passBook ', passBookPDA.toString());
   // console.log('mint ', master.mint.publicKey.toString());
   // console.log('mutable ', true);
-  // console.log('durationType ', DurationType.Days);
-  // console.log('duration ', 30);
+  // console.log('maxUsesType ', maxUsesType.Days);
+  // console.log('maxUses ', 30);
   // console.log('maxSupply ', 100);
   // console.log('name ', passBookData.name);
   // console.log('uri ', passBookData.uri);
@@ -166,7 +166,7 @@ test('init-pass-book-account: failure', async (t) => {
     authority: payer.publicKey,
     mutable: true,
     access: new BN(30),
-    duration: new BN(30),
+    maxUses: new BN(30),
     maxSupply: new BN(50),
     blurHash: null,
     price: new BN(0),

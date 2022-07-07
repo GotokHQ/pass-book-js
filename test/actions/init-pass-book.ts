@@ -17,7 +17,7 @@ type InitPassBookParams = {
   mutable: boolean;
   source: PublicKey;
   store: PublicKey;
-  duration: BN | null;
+  maxUses: BN | null;
   access: BN | null;
   maxSupply: BN | null;
   blurHash: string | null;
@@ -72,7 +72,7 @@ export async function initPassBook(
     store,
     authority,
     access,
-    duration,
+    maxUses,
     maxSupply,
     blurHash,
     price,
@@ -100,7 +100,7 @@ export async function initPassBook(
       store,
       access,
       tokenAccount,
-      duration,
+      maxUses,
       maxSupply,
       blurHash,
       price,

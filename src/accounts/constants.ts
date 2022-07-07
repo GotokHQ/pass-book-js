@@ -8,6 +8,8 @@ export enum AccountKey {
   Payout = 4,
   TradeHistory = 5,
   Membership = 6,
+  UseAuthority = 7,
+  StoreAuthority = 8,
 }
 
 export enum PassState {
