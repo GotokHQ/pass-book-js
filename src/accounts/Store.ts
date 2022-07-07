@@ -18,6 +18,8 @@ type Args = {
   key: AccountKey;
   authority: StringPublicKey;
   redemptionsCount: BN;
+  membershipCount: BN;
+  activeMembershipCount: BN;
   passCount: BN;
   passBookCount: BN;
   referrer: StringPublicKey;
@@ -29,6 +31,8 @@ export class StoreData extends Borsh.Data<Args> {
     ['key', 'u8'],
     ['authority', 'pubkeyAsString'],
     ['redemptionsCount', 'u64'],
+    ['membershipCount', 'u64'],
+    ['activeMembershipCount', 'u64'],
     ['passCount', 'u64'],
     ['passBookCount', 'u64'],
     ['referrer', { kind: 'option', type: 'pubkeyAsString' }],
@@ -38,6 +42,8 @@ export class StoreData extends Borsh.Data<Args> {
   mint: StringPublicKey;
   authority: StringPublicKey;
   redemptionsCount: string;
+  membershipCount: string;
+  activeMembershipCount: string;
   passCount: string;
   passBookCount: string;
   referrer: StringPublicKey | null;

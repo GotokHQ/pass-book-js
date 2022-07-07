@@ -18,7 +18,6 @@ type Args = {
   access: BN | null;
   maxUses: BN | null;
   maxSupply: BN | null;
-  blurHash: string | null;
   price: BN;
   hasReferrer: boolean;
   hasMarketAuthority: boolean;
@@ -35,7 +34,6 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
     ['access', { kind: 'option', type: 'u64' }],
     ['maxUses', { kind: 'option', type: 'u64' }],
     ['maxSupply', { kind: 'option', type: 'u64' }],
-    ['blurHash', { kind: 'option', type: 'string' }],
     ['price', 'u64'],
     ['hasReferrer', 'u8'],
     ['hasMarketAuthority', 'u8'],
@@ -50,7 +48,6 @@ export class InitPassBookArgs extends Borsh.Data<Args> {
   access: BN | null;
   maxUses: BN | null;
   maxSupply: BN | null;
-  blurHash: string | null;
   price: BN;
   hasReferrer: boolean;
   hasMarketAuthority: boolean;
@@ -75,7 +72,6 @@ export type InitPassBookParams = {
   maxUses: BN | null;
   access: BN | null;
   maxSupply: BN | null;
-  blurHash: string | null;
   price: BN;
   referralEndDate: BN | null;
   marketPayout: PayoutInfoArgs | null;
@@ -99,7 +95,6 @@ export class InitPassBook extends Transaction {
       access,
       maxUses,
       maxSupply,
-      blurHash,
       price,
       referralEndDate,
       marketPayout,
@@ -114,7 +109,6 @@ export class InitPassBook extends Transaction {
       access,
       maxUses,
       maxSupply,
-      blurHash,
       price,
       hasReferrer: !!referrerPayout,
       hasMarketAuthority: !!marketPayout,
@@ -124,7 +118,7 @@ export class InitPassBook extends Transaction {
     const keys = [
       {
         pubkey: passBook,
-        isSigner: false,
+        isSigner: true,
         isWritable: true,
       },
       {

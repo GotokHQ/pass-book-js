@@ -1,6 +1,6 @@
 {
     "name": "@gotok/pass-book",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Pass Book JavaScript API.",
     "main": "dist/src/pass-book.js",
     "types": "dist/src/pass-book.d.ts",
