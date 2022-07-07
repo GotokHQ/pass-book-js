@@ -8,73 +8,68 @@ import {
 import bs58 from 'bs58';
 import BN from 'bn.js';
 import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
-import { AccountKey, PassState } from './constants';
+import { AccountKey, PassBookState, PassState } from './constants';
 import { PassBookProgram } from '../PassBookProgram';
 
 export const MAX_PASS_BOOK_DATA_LEN = 1296;
 
 export type PassBookDataArgs = {
   key: AccountKey;
-  mint: StringPublicKey;
   authority: StringPublicKey;
+  state: PassBookState;
   name: string;
   description: string;
   uri: string;
   mutable: number;
   access: BN | null;
   duration: BN | null;
-  totalPasses: BN;
+  supply: BN;
   maxSupply: BN | null;
   blurHash: string | null;
   createdAt: BN;
   price: BN;
-  priceMint: StringPublicKey;
+  mint: StringPublicKey;
   token: StringPublicKey;
   marketAuthority: StringPublicKey | null;
-  creators: StringPublicKey[] | null;
 };
 
 export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   static readonly SCHEMA = PassBookData.struct([
     ['key', 'u8'],
     ['authority', 'pubkeyAsString'],
-    ['mint', 'pubkeyAsString'],
+    ['state', 'u8'],
     ['name', 'string'],
     ['description', 'string'],
     ['uri', 'string'],
     ['mutable', 'u8'],
-    ['passState', 'u8'],
     ['access', { kind: 'option', type: 'u64' }],
     ['duration', { kind: 'option', type: 'u64' }],
-    ['totalPasses', 'u64'],
+    ['supply', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
     ['blurHash', { kind: 'option', type: 'string' }],
     ['createdAt', 'u64'],
     ['price', 'u64'],
-    ['priceMint', 'pubkeyAsString'],
+    ['mint', 'pubkeyAsString'],
     ['token', 'pubkeyAsString'],
     ['marketAuthority', { kind: 'option', type: 'pubkeyAsString' }],
-    ['creators', { kind: 'option', type: ['pubkeyAsString'] }],
   ]);
   key: AccountKey;
-  mint: StringPublicKey;
   authority: StringPublicKey;
   name: string;
   description: string;
   uri: string;
   mutable: boolean;
-  passState: PassState;
+  state: PassState;
   access: BN | null;
   duration: BN | null;
-  totalPasses: BN;
+  supply: BN;
   maxSupply: BN | null;
   blurHash: string | null;
   createdAt: BN;
   price: BN;
-  priceMint: StringPublicKey;
+  mint: StringPublicKey;
   token: StringPublicKey;
   marketAuthority: StringPublicKey | null;
-  creators: StringPublicKey[] | null;
 
   constructor(args: PassBookDataArgs) {
     super(args);
@@ -108,8 +103,8 @@ export class PassBook extends Account<PassBookData> {
   static async findMany(
     connection: Connection,
     filters: {
-      mint?: AnyPublicKey;
       authority?: AnyPublicKey;
+      state?: PassState;
     } = {},
   ) {
     const baseFilters = [
@@ -128,10 +123,10 @@ export class PassBook extends Account<PassBookData> {
         },
       },
       // Filter for assigned to mint
-      filters.mint && {
+      filters.state && {
         memcmp: {
           offset: 33,
-          bytes: new PublicKey(filters.mint).toBase58(),
+          bytes: bs58.encode(Buffer.from([filters.state])),
         },
       },
     ].filter(Boolean);
@@ -146,7 +141,7 @@ export class PassBook extends Account<PassBookData> {
     return PassBook.load(connection, pda);
   }
 
-  static async findByAuthority(
+  static async findByCreator(
     connection: Connection,
     authority: AnyPublicKey,
   ): Promise<Account<PassBook>[]> {

@@ -6,6 +6,8 @@ export enum AccountKey {
   PassStore = 2,
   PassBook = 3,
   Payout = 4,
+  TradeHistory = 5,
+  Membership = 6,
 }
 
 export enum PassState {
@@ -13,6 +15,18 @@ export enum PassState {
   Activated = 1,
   Deactivated = 2,
   Ended = 3,
+}
+
+export enum PassBookState {
+  NotActivated = 0,
+  Activated = 1,
+  Deactivated = 2,
+}
+
+export enum MembershipState {
+  NotActivated = 0,
+  Activated = 1,
+  Expired = 2,
 }
 
 export const TOKEN_METADATA_PROGRAM_ID = new PublicKey(
