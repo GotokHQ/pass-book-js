@@ -8,7 +8,6 @@ type Args = {
   description?: string;
   uri?: string;
   mutable?: boolean;
-  blurHash?: string;
   price: BN | null;
 };
 
@@ -18,7 +17,6 @@ export class EditPassBookArgs extends Borsh.Data<Args> {
     ['name', { kind: 'option', type: 'string' }],
     ['description', { kind: 'option', type: 'string' }],
     ['uri', { kind: 'option', type: 'string' }],
-    ['blurHash', { kind: 'option', type: 'string' }],
     ['price', { kind: 'option', type: 'u64' }],
     ['mutable', { kind: 'option', type: 'u8' }],
   ]);
@@ -28,7 +26,6 @@ export class EditPassBookArgs extends Borsh.Data<Args> {
   description?: string;
   uri?: string;
   mutable?: boolean;
-  blurHash?: string;
   price: BN | null;
 }
 
@@ -36,7 +33,6 @@ export type EditPassBookParams = {
   name?: string;
   description?: string;
   uri?: string;
-  blurHash?: string;
   price: BN | null;
   mutable?: boolean;
   priceMint?: PublicKey;
@@ -47,14 +43,12 @@ export type EditPassBookParams = {
 export class EditPassBook extends Transaction {
   constructor(options: TransactionCtorFields, params: EditPassBookParams) {
     super(options);
-    const { name, description, uri, mutable, blurHash, price, priceMint, passBook, authority } =
-      params;
+    const { name, description, uri, mutable, price, priceMint, passBook, authority } = params;
     const data = EditPassBookArgs.serialize({
       name,
       description,
       uri,
       mutable,
-      blurHash,
       price,
     });
     const keys = [

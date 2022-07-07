@@ -25,11 +25,9 @@ export type PassBookDataArgs = {
   maxUses: BN | null;
   supply: BN;
   maxSupply: BN | null;
-  blurHash: string | null;
   createdAt: BN;
   price: BN;
   mint: StringPublicKey;
-  token: StringPublicKey;
   marketAuthority: StringPublicKey | null;
 };
 
@@ -46,11 +44,9 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     ['maxUses', { kind: 'option', type: 'u64' }],
     ['supply', 'u64'],
     ['maxSupply', { kind: 'option', type: 'u64' }],
-    ['blurHash', { kind: 'option', type: 'string' }],
     ['createdAt', 'u64'],
     ['price', 'u64'],
     ['mint', 'pubkeyAsString'],
-    ['token', 'pubkeyAsString'],
     ['marketAuthority', { kind: 'option', type: 'pubkeyAsString' }],
   ]);
   key: AccountKey;
@@ -64,11 +60,9 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
   maxUses: BN | null;
   supply: BN;
   maxSupply: BN | null;
-  blurHash: string | null;
   createdAt: BN;
   price: BN;
   mint: StringPublicKey;
-  token: StringPublicKey;
   marketAuthority: StringPublicKey | null;
 
   constructor(args: PassBookDataArgs) {
@@ -78,7 +72,6 @@ export class PassBookData extends Borsh.Data<PassBookDataArgs> {
     this.name = args.name.replace(REPLACE, '');
     this.description = args.description.replace(REPLACE, '');
     this.uri = args.uri.replace(REPLACE, '');
-    this.blurHash = args.blurHash?.replace(REPLACE, '');
     this.mutable = args.mutable == 1;
   }
 }
