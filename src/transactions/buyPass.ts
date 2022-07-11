@@ -10,6 +10,7 @@ import {
 } from '@solana/web3.js';
 
 import { PassBookProgram } from '../PassBookProgram';
+import { PayoutInfoArgs } from './InitPassBook';
 
 type Args = {
   marketFeeBasisPoint: number;
@@ -20,7 +21,7 @@ type Args = {
 export class BuyPassArgs extends Borsh.Data<Args> {
   static readonly SCHEMA = BuyPassArgs.struct([
     ['instruction', 'u8'],
-    ['marketFeeBasisPoint', 'u8'],
+    ['marketFeeBasisPoint', 'u16'],
     ['referralShare', 'u8'],
     ['referralKickBackShare', 'u8'],
   ]);
@@ -30,12 +31,6 @@ export class BuyPassArgs extends Borsh.Data<Args> {
   referralShare: number;
   referralKickBackShare: number;
 }
-
-export type PayoutInfoArgs = {
-  authority: PublicKey;
-  payoutAccount: PublicKey;
-  tokenAccount: PublicKey;
-};
 
 export type BuyPassParams = {
   buyer: PublicKey;
